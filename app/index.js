@@ -5,11 +5,15 @@ const https = require('https')
 var app = express()
 
 //Define request response in root URL (/)
-app.get('/', function (req, res) {
+app.get('/',   function (req, res) {
   res.send('Hello World!!!!!')
 })
 
-// const fs = require('fs')
+app.get('/.well-known/acme-challenge',   function (req, res) {
+  res.send('Hello World!!!!!')
+})
+
+const fs = require('fs')
 
 // //...
 

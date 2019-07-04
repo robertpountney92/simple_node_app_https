@@ -1,15 +1,21 @@
-FROM node:11.15.0-alpine
+FROM node:lts-slim
+
+ENV PORT="3000"
+ENV DEBUG="app:*"
+
+RUN apt-get update -y \
+    && apt-get -y install curl python build-essential git ca-certificates 
+
+RUN mkdir -p /app /app/bin /app/routes /app/views /app/public
+
+COPY bin/ /app/bin/
+COPY public/ /app/public/
+COPY routes/ /app/routes/
+COPY views/ /app/views/
+COPY app.js package.json /app/
 
 WORKDIR /app
-COPY package.json /app
-RUN npm install
-COPY . /app
+RUN npm install --unsafe-perm
 
-USER root
-# RUN add-apt-repository ppa:certbot/certbot
-# RUN apt-get update
-# RUN apt-get install certbot
-
-CMD node index.js
-
-EXPOSE 8081
+EXPOSE 3000 
+CMD /app/bin/www
